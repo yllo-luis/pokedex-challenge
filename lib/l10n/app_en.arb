@@ -1,0 +1,17 @@
+{
+  "onErrorTitle": "It seems that a critical error has occurred!",
+  "onErrorSubtitle": "We are working as fast as possible to solve the problem :3",
+  "onErrorOnLoadingTitle": "It looks like an error occurred while loading your items! Try again later",
+  "appTitle": "Pokédex",
+  "homeSearchBarHint": "Search",
+  "homeSortDialogTitle": "Sort by:",
+  "homeSortOptionId": "Number",
+  "homeSortOptionName": "Name",
+  "homeDetailsAbout": "About",
+  "homeDetailsWeight": "Weight",
+  "homeDetailsHeight": "Height",
+  "homeDetailsMoves": "Moves",
+  "homeDetailsBaseStats": "Base Stats",
+  "homePageLoadingNewPokemons": "Loading new pokemons!",
+  "featureWillBeImplementedFuture": "This feature will be implemented in the future!"
+}

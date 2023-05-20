@@ -1,0 +1,4 @@
+enum HomeSortTypeEnum {
+  sortAlphabet,
+  sortId,
+}
