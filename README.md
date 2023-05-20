@@ -1,6 +1,6 @@
 # pokedex_challenge
 
-A new Flutter project.
+Projeto flutter criado em resposta para o (desafio)['https://github.com/snapfi/mobile-code-challenge'] para realizar a implementação do código 
 
 ## Getting Started
 

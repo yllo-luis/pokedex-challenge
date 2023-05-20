@@ -61,9 +61,9 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               ),
             );
           }
-          return _mountPageBody(
+          return _MountPageBody(
             homeVo: pokemonListSnapshot.data,
-            homeController: this.controller,
+            homeController: controller,
             isLoading:
                 pokemonListSnapshot.connectionState == ConnectionState.waiting,
           );
@@ -73,13 +73,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   }
 }
 
-class _mountPageBody extends StatelessWidget {
+class _MountPageBody extends StatelessWidget {
   final HomeVo? homeVo;
   final HomeController homeController;
   final bool isLoading;
 
-  const _mountPageBody({
-    super.key,
+  const _MountPageBody({
     required this.homeVo,
     required this.homeController,
     this.isLoading = true,

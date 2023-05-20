@@ -43,13 +43,13 @@ class HomeController {
         .getBasicPaginatedPokemons(offset: homeStore.currentPage)
         .then(
       (value) {
-        value.forEach((element) {
+        for (var element in value) {
           if (element.url != null && element.url?.isNotEmpty == true) {
             homeStore.listOfUrlsToFetch.add(
               element.url!,
             );
           }
-        });
+        }
       },
       onError: (error) {
         homeStore.currentPokemons.addError(error);

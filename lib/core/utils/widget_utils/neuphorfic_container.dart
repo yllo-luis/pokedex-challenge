@@ -12,7 +12,7 @@ class NeumorphicContainer extends StatefulWidget {
     required this.child,
     this.bevel = 10.0,
     required this.color,
-  })  : this.blurOffset = Offset(bevel / 2, bevel / 2);
+  })  : blurOffset = Offset(bevel / 2, bevel / 2);
 
   @override
   _NeumorphicContainerState createState() => _NeumorphicContainerState();

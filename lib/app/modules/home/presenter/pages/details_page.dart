@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -97,20 +96,20 @@ class _DetailsPageState extends State<DetailsPage> {
             children: [
               Align(
                 alignment: Alignment.bottomCenter,
-                child: _mountContainerBody(
+                child: _MountContainerBody(
                   pokemonHomeVo: currentPokemon,
                 ),
               ),
               const Align(
                 alignment: Alignment.topRight,
-                child: _mountPokeballIcon(),
+                child: _MountPokeballIcon(),
               ),
               Positioned(
                 top: 75,
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 12.0),
+                      padding: const EdgeInsets.only(left: 12.0),
                       child: GestureDetector(
                         onTap: () => setState(() => backToLastPokemon()),
                         child: AnimatedSwitcher(
@@ -157,7 +156,7 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               Align(
                 alignment: Alignment.topCenter,
-                child: _mountTopBar(
+                child: _MountTopBar(
                   pokemonHomeVo: currentPokemon,
                 ),
               ),
@@ -169,11 +168,10 @@ class _DetailsPageState extends State<DetailsPage> {
   }
 }
 
-class _mountContainerBody extends StatelessWidget {
+class _MountContainerBody extends StatelessWidget {
   final PokemonHomeVo pokemonHomeVo;
 
-  const _mountContainerBody({
-    super.key,
+  const _MountContainerBody({
     required this.pokemonHomeVo,
   });
 
@@ -245,7 +243,7 @@ class _mountContainerBody extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
-                  child: _mountPokemonAbout(
+                  child: _MountPokemonAbout(
                     pokemonHomeVo: pokemonHomeVo,
                   ),
                 ),
@@ -273,11 +271,10 @@ class _mountContainerBody extends StatelessWidget {
   }
 }
 
-class _mountPokemonAbout extends StatelessWidget {
+class _MountPokemonAbout extends StatelessWidget {
   final PokemonHomeVo pokemonHomeVo;
 
-  const _mountPokemonAbout({
-    super.key,
+  const _MountPokemonAbout({
     required this.pokemonHomeVo,
   });
 
@@ -307,7 +304,7 @@ class _mountPokemonAbout extends StatelessWidget {
         const ContainerDivider(
           height: 60,
         ),
-        _mountPokemonMoves(
+        _MountPokemonMoves(
           pokemonHomeVo: pokemonHomeVo,
         )
       ],
@@ -315,9 +312,8 @@ class _mountPokemonAbout extends StatelessWidget {
   }
 }
 
-class _mountPokemonMoves extends StatelessWidget {
-  const _mountPokemonMoves({
-    super.key,
+class _MountPokemonMoves extends StatelessWidget {
+  const _MountPokemonMoves({
     required this.pokemonHomeVo,
   });
 
@@ -333,7 +329,7 @@ class _mountPokemonMoves extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 4.0),
+            padding: const EdgeInsets.only(bottom: 4.0),
             child: Text(
               AppUtils.iterateHabilitiesAndConcat(
                 moves: pokemonHomeVo.moves ?? List.empty(),
@@ -359,10 +355,8 @@ class _mountPokemonMoves extends StatelessWidget {
   }
 }
 
-class _mountPokeballIcon extends StatelessWidget {
-  const _mountPokeballIcon({
-    super.key,
-  });
+class _MountPokeballIcon extends StatelessWidget {
+  const _MountPokeballIcon();
 
   @override
   Widget build(BuildContext context) {
@@ -381,11 +375,10 @@ class _mountPokeballIcon extends StatelessWidget {
   }
 }
 
-class _mountTopBar extends StatelessWidget {
+class _MountTopBar extends StatelessWidget {
   final PokemonHomeVo pokemonHomeVo;
 
-  const _mountTopBar({
-    super.key,
+  const _MountTopBar({
     required this.pokemonHomeVo,
   });
 

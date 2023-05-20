@@ -48,7 +48,7 @@ class PokemonDetailsChart extends StatelessWidget {
               showTitles: true,
               reservedSize: 65,
               getTitlesWidget: (value, meta) {
-                return _getTitle(
+                return _GetTitle(
                   pokemonHomeVo: pokemonHomeVo,
                   index: value.toInt(),
                 );
@@ -90,9 +90,8 @@ class PokemonDetailsChart extends StatelessWidget {
   }
 }
 
-class _getTitle extends StatelessWidget {
-  const _getTitle({
-    super.key,
+class _GetTitle extends StatelessWidget {
+  const _GetTitle({
     required this.pokemonHomeVo,
     required this.index,
   });

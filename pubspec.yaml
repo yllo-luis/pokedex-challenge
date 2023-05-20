@@ -30,8 +30,6 @@ dependencies:
 
   # System
   build_runner: ^2.3.3
-  url_launcher: ^6.1.10
-  sqflite: ^2.2.6
   dio: ^5.1.1
 
   # Internationalization
@@ -43,7 +41,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  sqflite_common_ffi: ^2.2.3
   flutter_launcher_icons: ^0.13.0
 
 flutter_icons:

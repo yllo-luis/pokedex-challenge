@@ -31,11 +31,11 @@ class _HomeSearchbarState extends State<HomeSearchbar> {
             fillColor: Colors.white,
             filled: true,
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
+              borderSide: const BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.circular(25),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
+              borderSide: const BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.circular(25),
             ),
           ),

@@ -8,7 +8,6 @@ import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginate
 import 'package:pokedex_challenge/domain/use_case/module/home/get_pokemon_per_url_usecase.dart';
 
 class HomeModule extends Module {
-  @override
   static String route = '/home';
 
   @override

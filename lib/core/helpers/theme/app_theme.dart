@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData appTheme = ThemeData(
-    scaffoldBackgroundColor: Color(0xFFDC0A2D),
-    snackBarTheme: SnackBarThemeData(
+    scaffoldBackgroundColor: const Color(0xFFDC0A2D),
+    snackBarTheme: const SnackBarThemeData(
       closeIconColor: Colors.white,
       showCloseIcon: true,
       backgroundColor: Color(0xFFDC0A2D)
