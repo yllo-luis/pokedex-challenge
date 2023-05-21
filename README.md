@@ -1,8 +1,8 @@
 # pokedex_challenge
 
-Projeto Flutter criado em resposta ao [desafio]('https://github.com/snapfi/mobile-code-challenge').
+Projeto Flutter criado em resposta ao [desafio](https://github.com/snapfi/mobile-code-challenge).
 Para realizar a implementação do código, foram seguidos alguns conceitos em termos de arquitetura,
-[design]('https://www.figma.com/file/oyy40kpPCamOuJOQu1uYMo/Pok%C3%A9dex-(Community)?type=design&node-id=1016%3A1461&t=1525zdN4ReXRfE6d-1') e testes.
+[design](https://www.figma.com/file/oyy40kpPCamOuJOQu1uYMo/Pok%C3%A9dex-(Community)?type=design&node-id=1016%3A1461&t=1525zdN4ReXRfE6d-1) e testes.
 
 Em relação à arquitetura e injeção de dependências, foi implementado seguindo os preceitos da clean
 architecture com o uso de ferramentas nativas do Flutter para gerenciamento de estado, juntamente
