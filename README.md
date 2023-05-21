@@ -1,16 +1,28 @@
 # pokedex_challenge
 
-Projeto flutter criado em resposta para o (desafio)['https://github.com/snapfi/mobile-code-challenge'] para realizar a implementação do código 
+Projeto Flutter criado em resposta ao (desafio)['https://github.com/snapfi/mobile-code-challenge'].
+Para realizar a implementação do código, foram seguidos alguns conceitos em termos de arquitetura,
+(design)['https://www.figma.com/file/oyy40kpPCamOuJOQu1uYMo/Pok%C3%A9dex-(Community)?type=design&node-id=1016%3A1461&t=1525zdN4ReXRfE6d-1'] e testes.
 
-## Getting Started
+Em relação à arquitetura e injeção de dependências, foi implementado seguindo os preceitos da clean
+architecture com o uso de ferramentas nativas do Flutter para gerenciamento de estado, juntamente
+com a biblioteca RxDart.
 
-This project is a starting point for a Flutter application.
+Para a injeção de dependências, foi utilizada a biblioteca flutter_modular em conjunto com a
+biblioteca DIO para requisições HTTP/HTTPS e, por último, a biblioteca Mockito para criar classes
+falsas voltadas para testes unitários.
 
-A few resources to get you started if this is your first Flutter project:
+# Como executar os testes?
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Primeiramente, é necessário gerar os mocks necessários para algumas dependências utilizadas pelo
+aplicativo.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+O seguinte comando deve ser executado:
+
+flutter pub run build_runner build --delete-conflicting-outputs
+
+Por fim, basta apenas executar o comando:
+
+flutter test
+
+Dessa forma, os testes implementados serão executados."
