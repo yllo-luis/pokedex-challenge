@@ -12,6 +12,12 @@ Para a injeção de dependências, foi utilizada a biblioteca flutter_modular em
 biblioteca DIO para requisições HTTP/HTTPS e, por último, a biblioteca Mockito para criar classes
 falsas voltadas para testes unitários.
 
+# Como executar o projeto?
+
+Basta apenas rodar o comando abaixo com um celular plugado ao computador ou com um emulador de dispositivos mobile aberto.
+
+flutter run
+
 # Como executar os testes?
 
 Primeiramente, é necessário gerar os mocks necessários para algumas dependências utilizadas pelo
