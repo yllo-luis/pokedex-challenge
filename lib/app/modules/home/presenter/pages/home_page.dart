@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:pokedex_challenge/app/modules/home/presenter/VOs/home_vo.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_controller.dart';
@@ -11,16 +10,19 @@ import 'package:pokedex_challenge/core/enums/home_search_type_enum.dart';
 import 'package:pokedex_challenge/core/utils/widget_utils/neuphorfic_container.dart';
 
 import '../../../../../core/constants/app_constants_utils.dart';
+import '../../../../../l10n/app_localizations.dart';
 import 'details_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ModularState<HomePage, HomeController> {
+class _HomePageState extends State<HomePage> {
+  final controller = Modular.get<HomeController>();
+
   @override
   void initState() {
     controller.init();
@@ -32,7 +34,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context).appTitle,
+          AppLocalizations.of(context)?.appTitle ??
+              AppConstantsUtils.emptyString,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         titleSpacing: 20,
@@ -53,7 +56,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  AppLocalizations.of(context).onErrorOnLoadingTitle,
+                  AppLocalizations.of(context)?.onErrorOnLoadingTitle ??
+                      AppConstantsUtils.emptyString,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Colors.white,
                       ),
@@ -183,7 +187,8 @@ class _MountPageBody extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            AppLocalizations.of(context).homePageLoadingNewPokemons,
+            AppLocalizations.of(context)?.homePageLoadingNewPokemons ??
+                AppConstantsUtils.emptyString,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white,
                 ),
@@ -201,7 +206,8 @@ class _MountPageBody extends StatelessWidget {
         return AlertDialog(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           title: Text(
-            AppLocalizations.of(context).homeSortDialogTitle,
+            AppLocalizations.of(context)?.homeSortDialogTitle ??
+                AppConstantsUtils.emptyString,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           content: Container(
@@ -210,38 +216,39 @@ class _MountPageBody extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RadioListTile<HomeSortTypeEnum>(
-                  title: Text(
-                    AppLocalizations.of(context).homeSortOptionId,
-                    style: Theme.of(context).textTheme.bodyMedium,
+            child: RadioGroup<HomeSortTypeEnum>(
+              groupValue: homeController
+                  .homeStore.currentPokemons.value.sortTypeEnum,
+              onChanged: (value) {
+                if (value != null) {
+                  homeController.changeFilterType(homeSortTypeEnum: value);
+                  Navigator.pop(context);
+                }
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RadioListTile<HomeSortTypeEnum>(
+                    title: Text(
+                      AppLocalizations.of(context)?.homeSortOptionId ??
+                          AppConstantsUtils.emptyString,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    value: HomeSortTypeEnum.sortId,
+                    activeColor: Theme.of(context).scaffoldBackgroundColor,
+
                   ),
-                  value: HomeSortTypeEnum.sortId,
-                  groupValue: homeController
-                      .homeStore.currentPokemons.value.sortTypeEnum,
-                  activeColor: Theme.of(context).scaffoldBackgroundColor,
-                  onChanged: (HomeSortTypeEnum? value) {
-                    homeController.changeFilterType(homeSortTypeEnum: value!);
-                    Navigator.pop(context);
-                  },
-                ),
-                RadioListTile<HomeSortTypeEnum>(
-                  title: Text(
-                    AppLocalizations.of(context).homeSortOptionName,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  RadioListTile<HomeSortTypeEnum>(
+                    title: Text(
+                      AppLocalizations.of(context)?.homeSortOptionName ??
+                          AppConstantsUtils.emptyString,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    value: HomeSortTypeEnum.sortAlphabet,
+                    activeColor: Theme.of(context).scaffoldBackgroundColor,
                   ),
-                  value: HomeSortTypeEnum.sortAlphabet,
-                  groupValue: homeController
-                      .homeStore.currentPokemons.value.sortTypeEnum,
-                  onChanged: (HomeSortTypeEnum? value) {
-                    homeController.changeFilterType(homeSortTypeEnum: value!);
-                    Navigator.pop(context);
-                  },
-                  activeColor: Theme.of(context).scaffoldBackgroundColor,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

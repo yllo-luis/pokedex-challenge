@@ -15,10 +15,10 @@ class NeumorphicContainer extends StatefulWidget {
   })  : blurOffset = Offset(bevel / 2, bevel / 2);
 
   @override
-  _NeumorphicContainerState createState() => _NeumorphicContainerState();
+  NeumorphicContainerState createState() => NeumorphicContainerState();
 }
 
-class _NeumorphicContainerState extends State<NeumorphicContainer> {
+class NeumorphicContainerState extends State<NeumorphicContainer> {
   bool _isPressed = false;
 
   void _onPointerDown(PointerDownEvent event) {
@@ -62,7 +62,7 @@ class _NeumorphicContainerState extends State<NeumorphicContainer> {
             BoxShadow(
               blurRadius: widget.bevel,
               offset: widget.blurOffset,
-              color: Colors.black.withOpacity(0.4),
+              color: Colors.black.withValues(alpha: 0.4),
             )
           ],
         ),

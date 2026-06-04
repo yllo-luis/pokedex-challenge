@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../../../l10n/app_localizations.dart';
 
 class HomeSearchbar extends StatefulWidget {
   const HomeSearchbar({super.key});
@@ -22,7 +23,7 @@ class _HomeSearchbarState extends State<HomeSearchbar> {
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
             ),
-            hintText: AppLocalizations.of(context).homeSearchBarHint,
+            hintText: AppLocalizations.of(context)?.homeSearchBarHint,
             hintStyle: Theme.of(context).textTheme.bodyLarge,
             prefixIcon: Icon(
               Icons.search,

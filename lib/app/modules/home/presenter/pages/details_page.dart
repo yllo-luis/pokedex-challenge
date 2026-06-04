@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:pokedex_challenge/app/modules/home/presenter/VOs/pokemon_home_vo.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_controller.dart';
@@ -12,6 +11,10 @@ import 'package:pokedex_challenge/core/extensions/string_utils.dart';
 import 'package:pokedex_challenge/core/utils/app_utils.dart';
 import 'package:pokedex_challenge/core/utils/widget_utils/container_divider.dart';
 import 'package:pokedex_challenge/core/utils/widget_utils/pill_container.dart';
+
+import 'package:pokedex_challenge/core/enums/pokemon_type_enum.dart';
+
+import '../../../../../l10n/app_localizations.dart';
 
 class DetailsPage extends StatefulWidget {
   static const String route = '/details';
@@ -28,9 +31,8 @@ class _DetailsPageState extends State<DetailsPage> {
   final controller = Modular.get<HomeController>();
   final ScrollController scrollController = ScrollController();
 
-  late Color currentColor = AppUtils.getCorrectColorPerPokemonType(
-    pokemonTypeEnum: widget.initialPokemon.types!.first.type!,
-  );
+  late Color currentColor =
+      widget.initialPokemon.types!.first.type!.getCorrectColorPerPokemonType();
 
   late PokemonHomeVo currentPokemon = widget.initialPokemon;
 
@@ -60,9 +62,9 @@ class _DetailsPageState extends State<DetailsPage> {
     if (isLast == false) {
       setState(() {
         currentPokemon = currentPokemons[currentIndex + 1];
-        currentColor = AppUtils.getCorrectColorPerPokemonType(
-          pokemonTypeEnum: currentPokemon.types!.first.type!,
-        );
+        currentColor =
+            currentPokemon.types!.first.type!.getCorrectColorPerPokemonType();
+
         validatePosition();
       });
     }
@@ -77,9 +79,9 @@ class _DetailsPageState extends State<DetailsPage> {
     if (isFirst == false) {
       setState(() {
         currentPokemon = currentPokemons[currentIndex - 1];
-        currentColor = AppUtils.getCorrectColorPerPokemonType(
-          pokemonTypeEnum: currentPokemon.types!.first.type!,
-        );
+        currentColor =
+            currentPokemon.types!.first.type!.getCorrectColorPerPokemonType();
+
         validatePosition();
       });
     }
@@ -220,11 +222,8 @@ class _MountContainerBody extends StatelessWidget {
                                 pokemonTypeEnum:
                                     pokemonHomeVo.types![index].type!,
                               ),
-                              colorToShow:
-                                  AppUtils.getCorrectColorPerPokemonType(
-                                pokemonTypeEnum:
-                                    pokemonHomeVo.types![index].type!,
-                              ),
+                              colorToShow: pokemonHomeVo.types![index].type!
+                                  .getCorrectColorPerPokemonType(),
                             ),
                           );
                         },
@@ -234,11 +233,11 @@ class _MountContainerBody extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  AppLocalizations.of(context).homeDetailsAbout,
+                  AppLocalizations.of(context)?.homeDetailsAbout ??
+                      AppConstantsUtils.emptyString,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: AppUtils.getCorrectColorPerPokemonType(
-                          pokemonTypeEnum: pokemonHomeVo.types!.first.type!,
-                        ),
+                        color: pokemonHomeVo.types!.first.type!
+                            .getCorrectColorPerPokemonType(),
                       ),
                 ),
                 Padding(
@@ -250,11 +249,11 @@ class _MountContainerBody extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Text(
-                    AppLocalizations.of(context).homeDetailsBaseStats,
+                    AppLocalizations.of(context)?.homeDetailsBaseStats ??
+                        AppConstantsUtils.emptyString,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: AppUtils.getCorrectColorPerPokemonType(
-                            pokemonTypeEnum: pokemonHomeVo.types!.first.type!,
-                          ),
+                          color: pokemonHomeVo.types!.first.type!
+                              .getCorrectColorPerPokemonType(),
                         ),
                   ),
                 ),
@@ -284,7 +283,8 @@ class _MountPokemonAbout extends StatelessWidget {
       children: [
         Expanded(
           child: PokemonDetailsDataContainer(
-            title: AppLocalizations.of(context).homeDetailsWeight,
+            title: AppLocalizations.of(context)?.homeDetailsWeight ??
+                AppConstantsUtils.emptyString,
             data: pokemonHomeVo.weight.toString(),
             measure: 'Kg',
             icon: Icons.monitor_weight_outlined,
@@ -295,7 +295,8 @@ class _MountPokemonAbout extends StatelessWidget {
         ),
         Expanded(
           child: PokemonDetailsDataContainer(
-            title: AppLocalizations.of(context).homeDetailsHeight,
+            title: AppLocalizations.of(context)?.homeDetailsHeight ??
+                AppConstantsUtils.emptyString,
             data: pokemonHomeVo.height.toString(),
             measure: 'm',
             icon: Icons.height,
@@ -343,9 +344,10 @@ class _MountPokemonMoves extends StatelessWidget {
           ),
           Center(
             child: Text(
-              AppLocalizations.of(context).homeDetailsMoves,
+              AppLocalizations.of(context)?.homeDetailsMoves ??
+                  AppConstantsUtils.emptyString,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Colors.black.withOpacity(0.7),
+                    color: Colors.black.withValues(alpha: 0.7),
                   ),
             ),
           )

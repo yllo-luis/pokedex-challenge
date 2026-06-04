@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:pokedex_challenge/app/modules/home/presenter/VOs/pokemon_home_vo.dart';
 import 'package:pokedex_challenge/core/constants/app_constants_utils.dart';
-import 'package:pokedex_challenge/core/utils/app_utils.dart';
+import 'package:pokedex_challenge/core/enums/pokemon_stats_enum.dart';
+import 'package:pokedex_challenge/core/enums/pokemon_type_enum.dart';
 
 class PokemonDetailsChart extends StatelessWidget {
   const PokemonDetailsChart({
@@ -57,7 +58,7 @@ class PokemonDetailsChart extends StatelessWidget {
           ),
           barGroups: getBarGroups(),
         ),
-        swapAnimationDuration: AppConstantsUtils.defaultAnimationDuration,
+        duration: AppConstantsUtils.defaultAnimationDuration,
       ),
     );
   }
@@ -71,16 +72,15 @@ class PokemonDetailsChart extends StatelessWidget {
           barRods: [
             BarChartRodData(
               toY: pokemonHomeVo.stats![index].baseStat!.roundToDouble(),
-              color: AppUtils.getCorrectColorPerPokemonType(
-                pokemonTypeEnum: pokemonHomeVo.types!.first.type!,
-              ),
+              color: pokemonHomeVo.types!.first.type!
+                  .getCorrectColorPerPokemonType(),
               backDrawRodData: BackgroundBarChartRodData(
                 show: true,
                 fromY: 0,
                 toY: 500,
-                color: AppUtils.getCorrectColorPerPokemonType(
-                  pokemonTypeEnum: pokemonHomeVo.types!.first.type!,
-                ).withOpacity(0.3),
+                color: pokemonHomeVo.types!.first.type!
+                    .getCorrectColorPerPokemonType()
+                    .withValues(alpha: 0.3),
               ),
             ),
           ],
@@ -109,14 +109,11 @@ class _GetTitle extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 12.0),
               child: Text(
-                AppUtils.parseStatsToTitleGraph(
-                  pokemonTypeEnum: pokemonHomeVo.stats![index].stat!,
-                ),
+                pokemonHomeVo.stats![index].stat!.parseStatsToTitleGraph(),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontSize: 12,
-                      color: AppUtils.getCorrectColorPerPokemonType(
-                        pokemonTypeEnum: pokemonHomeVo.types!.first.type!,
-                      ),
+                      color: pokemonHomeVo.types!.first.type!
+                          .getCorrectColorPerPokemonType(),
                     ),
                 textAlign: TextAlign.center,
               ),

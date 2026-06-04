@@ -34,7 +34,7 @@ class PokemonService implements PokemonServiceContract {
 
       return result;
     }
-    throw DioError(
+    throw DioException(
       requestOptions: RequestOptions(
         path: ApiConstants.pokemonUrlEndpoint,
       ),
@@ -48,7 +48,7 @@ class PokemonService implements PokemonServiceContract {
     if (response.statusCode == 200) {
       return PokemonResponse.fromJson(json: response.data);
     }
-    throw DioError(
+    throw DioException(
       requestOptions: RequestOptions(
         path: url,
       ),

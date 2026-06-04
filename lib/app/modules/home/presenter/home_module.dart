@@ -7,44 +7,40 @@ import 'package:pokedex_challenge/app/modules/home/presenter/store/home_store.da
 import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginated_pokemons_usecase.dart';
 import 'package:pokedex_challenge/domain/use_case/module/home/get_pokemon_per_url_usecase.dart';
 
+import '../../../../data/modules/home/service/pokemon_service.dart';
+
 class HomeModule extends Module {
   static String route = '/home';
 
   @override
-  List<Bind> binds = List.from([
-    Bind.lazySingleton<GetBasicPaginatedPokemonsUseCase>(
-      (i) => GetBasicPaginatedPokemonsUseCase(
-        pokemonService: i(),
+  void binds(Injector i) {
+    i.addLazySingleton<GetBasicPaginatedPokemonsUseCase>(
+      () => GetBasicPaginatedPokemonsUseCase(pokemonService: Modular.get<PokemonService>()),
+    );
+    i.addLazySingleton<GetPokemonPerUrlUseCase>(
+      () => GetPokemonPerUrlUseCase(pokemonService: Modular.get<PokemonService>()),
+    );
+    i.addLazySingleton<HomeStore>(() => HomeStore());
+    i.addLazySingleton<HomeController>(
+      () => HomeController(
+        homeStore: Modular.get<HomeStore>(),
+        getBasicPaginatedPokemonsUsecase: Modular.get<GetBasicPaginatedPokemonsUseCase>(),
+        getPokemonPerUrlUsecase: Modular.get<GetPokemonPerUrlUseCase>(),
       ),
-    ),
-    Bind.lazySingleton<GetPokemonPerUrlUseCase>(
-      (i) => GetPokemonPerUrlUseCase(
-        pokemonService: i(),
-      ),
-    ),
-    Bind.lazySingleton<HomeStore>(
-      (i) => HomeStore(),
-    ),
-    Bind.lazySingleton<HomeController>(
-      (i) => HomeController(
-        homeStore: i(),
-        getBasicPaginatedPokemonsUsecase: i(),
-        getPokemonPerUrlUsecase: i(),
-      ),
-    ),
-  ]);
+    );
+  }
 
   @override
-  List<ModularRoute> get routes => List.from(
-        [
-          ChildRoute(
-            Modular.initialRoute,
-            child: (context, args) => const HomePage(),
-          ),
-          ChildRoute(
-            route + DetailsPage.route,
-            child: (context, args) => DetailsPage(initialPokemon: args.data as PokemonHomeVo),
-          )
-        ],
-      );
+  void routes(RouteManager r) {
+    r.child(
+      Modular.initialRoute,
+      child: (context) => const HomePage(),
+    );
+    r.child(
+      route + DetailsPage.route,
+      child: (context) => DetailsPage(
+        initialPokemon: r.args.data as PokemonHomeVo,
+      ),
+    );
+  }
 }

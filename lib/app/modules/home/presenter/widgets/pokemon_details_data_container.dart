@@ -43,7 +43,7 @@ class PokemonDetailsDataContainer extends StatelessWidget {
         Text(
           title,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
               ),
         )
       ],

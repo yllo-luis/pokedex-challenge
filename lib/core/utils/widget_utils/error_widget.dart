@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pokedex_challenge/core/constants/app_constants_utils.dart';
+
+import '../../../l10n/app_localizations.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final FlutterErrorDetails errorDetails;
@@ -23,13 +25,15 @@ class CustomErrorWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12.0),
                     child: Text(
-                      AppLocalizations.of(context).onErrorTitle,
+                      AppLocalizations.of(context)?.onErrorTitle ??
+                          AppConstantsUtils.emptyString,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24.0),
                     child: Text(
-                      AppLocalizations.of(context).onErrorSubtitle,
+                      AppLocalizations.of(context)?.onErrorSubtitle ??
+                          AppConstantsUtils.emptyString,
                       textAlign: TextAlign.center,
                     ),
                   ),
