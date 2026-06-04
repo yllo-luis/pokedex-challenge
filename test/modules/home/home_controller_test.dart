@@ -10,7 +10,7 @@ import 'package:pokedex_challenge/core/enums/home_search_type_enum.dart';
 import 'package:pokedex_challenge/data/modules/home/response/pokemon_redirect_resource_response.dart';
 import 'package:pokedex_challenge/data/modules/home/response/pokemon_response.dart';
 import 'package:pokedex_challenge/data/modules/home/service/pokemon_service_contract.dart';
-import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginated_pokemons_usecase.dart';
+import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginated_pokemon_usecase.dart';
 import 'package:pokedex_challenge/domain/use_case/module/home/get_pokemon_per_url_usecase.dart';
 
 import 'home_controller_tests.mocks.dart';
@@ -20,7 +20,7 @@ import 'home_controller_tests.mocks.dart';
 ])
 void main() {
   late GetPokemonPerUrlUseCase mockGetPokemonPerUrlUsecase;
-  late GetBasicPaginatedPokemonsUseCase mockBasicPaginatedPokemonsUseCase;
+  late GetBasicPaginatedPokemonUseCase mockBasicPaginatedPokemonsUseCase;
   late HomeStore homeStore;
   late HomeController homeController;
   late MockPokemonServiceContract mockPokemonServiceContract;
@@ -60,7 +60,7 @@ void main() {
   group(('Home controller tests'), () {
     setUp(() {
       mockPokemonServiceContract = MockPokemonServiceContract();
-      mockBasicPaginatedPokemonsUseCase = GetBasicPaginatedPokemonsUseCase(
+      mockBasicPaginatedPokemonsUseCase = GetBasicPaginatedPokemonUseCase(
           pokemonService: mockPokemonServiceContract);
       mockGetPokemonPerUrlUsecase =
           GetPokemonPerUrlUseCase(pokemonService: mockPokemonServiceContract);

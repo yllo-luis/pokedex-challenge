@@ -4,12 +4,12 @@ import 'package:pokedex_challenge/app/modules/home/presenter/VOs/home_vo.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/VOs/pokemon_home_vo.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/store/home_store.dart';
 import 'package:pokedex_challenge/core/enums/home_search_type_enum.dart';
-import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginated_pokemons_usecase.dart';
+import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginated_pokemon_usecase.dart';
 import 'package:pokedex_challenge/domain/use_case/module/home/get_pokemon_per_url_usecase.dart';
 
 class HomeController {
   final HomeStore homeStore;
-  final GetBasicPaginatedPokemonsUseCase getBasicPaginatedPokemonsUsecase;
+  final GetBasicPaginatedPokemonUseCase getBasicPaginatedPokemonsUsecase;
   final GetPokemonPerUrlUseCase getPokemonPerUrlUsecase;
 
   const HomeController({
@@ -40,7 +40,7 @@ class HomeController {
 
   Future<void> goToNextPage() async {
     await getBasicPaginatedPokemonsUsecase
-        .getBasicPaginatedPokemons(offset: homeStore.currentPage)
+        .getBasicPaginatedPokemon(offset: homeStore.currentPage)
         .then(
       (value) {
         for (var element in value) {
