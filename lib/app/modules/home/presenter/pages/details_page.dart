@@ -107,53 +107,59 @@ class _DetailsPageState extends State<DetailsPage> {
                 child: _MountPokeballIcon(),
               ),
               Positioned(
-                top: 75,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: GestureDetector(
-                        onTap: () => setState(() => backToLastPokemon()),
+                top: 90,
+                right: 30,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: GestureDetector(
+                          onTap: () => setState(() => backToLastPokemon()),
+                          child: AnimatedSwitcher(
+                            duration:
+                                AppConstantsUtils.defaultAnimationDuration,
+                            child: isFirst == false
+                                ? const Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.white,
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: SizedBox(
+                          height: 250,
+                          width: 250,
+                          child: Image.network(
+                            currentPokemon.officialArtwork!,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.image_not_supported,
+                                color: Colors.white,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => setState(() => advanceToNextPokemon()),
                         child: AnimatedSwitcher(
                           duration: AppConstantsUtils.defaultAnimationDuration,
-                          child: isFirst == false
+                          child: isLast == false
                               ? const Icon(
-                                  Icons.arrow_back_ios,
+                                  Icons.arrow_forward_ios,
                                   color: Colors.white,
                                 )
                               : const SizedBox.shrink(),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: SizedBox(
-                        height: 250,
-                        width: 250,
-                        child: Image.network(
-                          currentPokemon.officialArtwork!,
-                          errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
-                              Icons.image_not_supported,
-                              color: Colors.white,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => setState(() => advanceToNextPokemon()),
-                      child: AnimatedSwitcher(
-                        duration: AppConstantsUtils.defaultAnimationDuration,
-                        child: isLast == false
-                            ? const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                              )
-                            : const SizedBox.shrink(),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Align(
@@ -339,7 +345,7 @@ class _MountPokemonMoves extends StatelessWidget {
                   .textTheme
                   .bodyMedium
                   ?.copyWith(fontWeight: FontWeight.w500),
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.center,
             ),
           ),
           Center(

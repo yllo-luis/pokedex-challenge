@@ -25,7 +25,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    controller.init();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.init();
+    });
     super.initState();
   }
 
@@ -217,8 +219,8 @@ class _MountPageBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: RadioGroup<HomeSortTypeEnum>(
-              groupValue: homeController
-                  .homeStore.currentPokemons.value.sortTypeEnum,
+              groupValue:
+                  homeController.homeStore.currentPokemons.value.sortTypeEnum,
               onChanged: (value) {
                 if (value != null) {
                   homeController.changeFilterType(homeSortTypeEnum: value);
@@ -236,7 +238,6 @@ class _MountPageBody extends StatelessWidget {
                     ),
                     value: HomeSortTypeEnum.sortId,
                     activeColor: Theme.of(context).scaffoldBackgroundColor,
-
                   ),
                   RadioListTile<HomeSortTypeEnum>(
                     title: Text(

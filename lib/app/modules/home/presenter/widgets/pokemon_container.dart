@@ -49,25 +49,31 @@ class PokemonContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 40,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      topRight: Radius.circular(8),
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.circular(5),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 24,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8),
+                        bottomLeft: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      ),
                     ),
-                  ),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      (pokemonHomeVo.name ?? AppConstantsUtils.emptyString).upperCaseFirstLetter(target: pokemonHomeVo.name ?? AppConstantsUtils.emptyString),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        (pokemonHomeVo.name ?? AppConstantsUtils.emptyString)
+                            .upperCaseFirstLetter(
+                                target: pokemonHomeVo.name ??
+                                    AppConstantsUtils.emptyString),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                     ),
                   ),
                 ),
