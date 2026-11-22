@@ -1,9 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/VOs/pokemon_home_vo.dart';
-import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_controller.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_cubit.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/pages/details_page.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/pages/home_page.dart';
-import 'package:pokedex_challenge/app/modules/home/presenter/store/home_store.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/states/home_state.dart';
 import 'package:pokedex_challenge/domain/use_case/module/home/get_basic_paginated_pokemon_usecase.dart';
 import 'package:pokedex_challenge/domain/use_case/module/home/get_pokemon_per_url_usecase.dart';
 
@@ -20,10 +20,9 @@ class HomeModule extends Module {
     i.addLazySingleton<GetPokemonPerUrlUseCase>(
       () => GetPokemonPerUrlUseCase(pokemonService: Modular.get<PokemonService>()),
     );
-    i.addLazySingleton<HomeStore>(() => HomeStore());
-    i.addLazySingleton<HomeController>(
-      () => HomeController(
-        homeStore: Modular.get<HomeStore>(),
+    i.addLazySingleton<HomeCubit>(
+      () => HomeCubit(
+        HomeState.initial(),
         getBasicPaginatedPokemonsUsecase: Modular.get<GetBasicPaginatedPokemonUseCase>(),
         getPokemonPerUrlUsecase: Modular.get<GetPokemonPerUrlUseCase>(),
       ),

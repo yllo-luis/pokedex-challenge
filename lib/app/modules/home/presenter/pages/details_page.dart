@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:pokedex_challenge/app/modules/home/presenter/VOs/pokemon_home_vo.dart';
-import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_controller.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_cubit.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/widgets/pokemon_details_chart.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/widgets/pokemon_details_data_container.dart';
 import 'package:pokedex_challenge/core/constants/app_constants_utils.dart';
@@ -28,7 +28,9 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  final controller = Modular.get<HomeController>();
+
+  // TODO: Undo this. This page should have it's own controller.
+  final controller = Modular.get<HomeCubit>();
   final ScrollController scrollController = ScrollController();
 
   late Color currentColor =
@@ -41,52 +43,56 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   void initState() {
-    validatePosition();
+    // validatePosition();
     super.initState();
   }
 
-  void validatePosition() {
-    final List currentPokemons =
-        controller.homeStore.currentPokemons.value.listPokemons;
-    isFirst = currentPokemons.indexOf(currentPokemon) == 0;
-    isLast =
-        currentPokemons.indexOf(currentPokemon) == currentPokemons.length - 1;
-  }
+  // // TODO: Undo this. This function is not a good example of manipulating the list of pokemons available.
+  // void validatePosition() {
+  //   final List currentPokemons =
+  //       controller.homeStore.currentPokemons.value.listPokemons;
+  //   isFirst = currentPokemons.indexOf(currentPokemon) == 0;
+  //   isLast =
+  //       currentPokemons.indexOf(currentPokemon) == currentPokemons.length - 1;
+  // }
+  //
+  // // TODO: Refactor this. This page is going to have it's own cubit with it's own state.
+  // void advanceToNextPokemon() {
+  //   final List currentPokemons =
+  //       controller.homeStore.currentPokemons.value.listPokemons;
+  //   int currentIndex = currentPokemons.indexWhere(
+  //     (element) => currentPokemon.id == element.id,
+  //   );
+  //   if (isLast == false) {
+  //     setState(() {
+  //       currentPokemon = currentPokemons[currentIndex + 1];
+  //       currentColor =
+  //           currentPokemon.types!.first.type!.getCorrectColorPerPokemonType();
+  //
+  //       validatePosition();
+  //     });
+  //   }
+  // }
+  //
+  // // TODO: Refactor this. This page is going to have it's own cubit with it's own state.
+  // void backToLastPokemon() {
+  //   final List currentPokemons =
+  //       controller.homeStore.currentPokemons.value.listPokemons;
+  //   int currentIndex = currentPokemons.indexWhere(
+  //     (element) => currentPokemon.id == element.id,
+  //   );
+  //   if (isFirst == false) {
+  //     setState(() {
+  //       currentPokemon = currentPokemons[currentIndex - 1];
+  //       currentColor =
+  //           currentPokemon.types!.first.type!.getCorrectColorPerPokemonType();
+  //
+  //       validatePosition();
+  //     });
+  //   }
+  // }
 
-  void advanceToNextPokemon() {
-    final List currentPokemons =
-        controller.homeStore.currentPokemons.value.listPokemons;
-    int currentIndex = currentPokemons.indexWhere(
-      (element) => currentPokemon.id == element.id,
-    );
-    if (isLast == false) {
-      setState(() {
-        currentPokemon = currentPokemons[currentIndex + 1];
-        currentColor =
-            currentPokemon.types!.first.type!.getCorrectColorPerPokemonType();
-
-        validatePosition();
-      });
-    }
-  }
-
-  void backToLastPokemon() {
-    final List currentPokemons =
-        controller.homeStore.currentPokemons.value.listPokemons;
-    int currentIndex = currentPokemons.indexWhere(
-      (element) => currentPokemon.id == element.id,
-    );
-    if (isFirst == false) {
-      setState(() {
-        currentPokemon = currentPokemons[currentIndex - 1];
-        currentColor =
-            currentPokemon.types!.first.type!.getCorrectColorPerPokemonType();
-
-        validatePosition();
-      });
-    }
-  }
-
+  // TODO: Remove every single fucking setState from this page.
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -117,7 +123,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: GestureDetector(
-                          onTap: () => setState(() => backToLastPokemon()),
+                          // onTap: () => setState(() => backToLastPokemon()),
                           child: AnimatedSwitcher(
                             duration:
                                 AppConstantsUtils.defaultAnimationDuration,
@@ -147,7 +153,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => setState(() => advanceToNextPokemon()),
+                        // onTap: () => setState(() => advanceToNextPokemon()),
                         child: AnimatedSwitcher(
                           duration: AppConstantsUtils.defaultAnimationDuration,
                           child: isLast == false

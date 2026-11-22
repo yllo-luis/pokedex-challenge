@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:pokedex_challenge/app/modules/home/presenter/VOs/home_vo.dart';
-import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_controller.dart';
-import 'package:pokedex_challenge/app/modules/home/presenter/home_module.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/VOs/pokemon_home_vo.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/controller/home_cubit.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/states/failure_state.dart';
+import 'package:pokedex_challenge/app/modules/home/presenter/states/home_state.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/widgets/home_searchbar.dart';
 import 'package:pokedex_challenge/app/modules/home/presenter/widgets/pokemon_container.dart';
 import 'package:pokedex_challenge/core/enums/home_search_type_enum.dart';
@@ -11,6 +13,7 @@ import 'package:pokedex_challenge/core/utils/widget_utils/neuphorfic_container.d
 
 import '../../../../../core/constants/app_constants_utils.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../widgets/home_dialogs.dart';
 import 'details_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,13 +24,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = Modular.get<HomeController>();
+  final homeCubit = Modular.get<HomeCubit>();
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.init();
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        homeCubit.goToNextPage();
+      },
+    );
     super.initState();
   }
 
@@ -51,10 +56,10 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
-      body: StreamBuilder<HomeVo>(
-        stream: controller.homeStore.currentPokemons,
-        builder: (context, pokemonListSnapshot) {
-          if (pokemonListSnapshot.hasError) {
+      body: BlocConsumer<HomeCubit, HomeState>(
+        bloc: homeCubit,
+        listener: (context, state) {
+          if (state is FailureState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
@@ -67,11 +72,11 @@ class _HomePageState extends State<HomePage> {
               ),
             );
           }
+        },
+        builder: (context, state) {
           return _MountPageBody(
-            homeVo: pokemonListSnapshot.data,
-            homeController: controller,
-            isLoading:
-                pokemonListSnapshot.connectionState == ConnectionState.waiting,
+            homeCubit: homeCubit,
+            state: state,
           );
         },
       ),
@@ -80,15 +85,16 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _MountPageBody extends StatelessWidget {
-  final HomeVo? homeVo;
-  final HomeController homeController;
-  final bool isLoading;
+  final HomeCubit homeCubit;
+  final HomeState state;
 
   const _MountPageBody({
-    required this.homeVo,
-    required this.homeController,
-    this.isLoading = true,
+    required this.homeCubit,
+    required this.state,
   });
+
+  List<PokemonHomeVo> get getPokemonsList =>
+      state.pokemonData?.listPokemons ?? List.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -107,16 +113,25 @@ class _MountPageBody extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: GestureDetector(
-                  onTap: () => showFilterDialog(context),
+                  onTap: () => HomeDialogs.showFilterDialog(
+                    context: context,
+                    value: state.pokemonData?.sortTypeEnum ??
+                        HomeSortTypeEnum.sortAlphabet,
+                    onChanged: (value) {
+                      homeCubit.updatePokemonExibition(value);
+                      Navigator.pop(context);
+                    },
+                  ),
                   child: NeumorphicContainer(
                     color: Colors.white,
                     child: Text(
-                      homeVo?.sortTypeEnum == HomeSortTypeEnum.sortAlphabet
+                      state.pokemonData?.sortTypeEnum ==
+                              HomeSortTypeEnum.sortAlphabet
                           ? 'A'
                           : '#',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             color: Theme.of(context).scaffoldBackgroundColor,
-                            decoration: homeVo?.sortTypeEnum ==
+                            decoration: state.pokemonData?.sortTypeEnum ==
                                     HomeSortTypeEnum.sortAlphabet
                                 ? TextDecoration.underline
                                 : null,
@@ -146,7 +161,7 @@ class _MountPageBody extends StatelessWidget {
             ),
             child: AnimatedSwitcher(
               duration: AppConstantsUtils.defaultAnimationDuration,
-              child: isLoading == false
+              child: state.isLoading == false
                   ? NotificationListener<ScrollNotification>(
                       onNotification: (notification) {
                         onLoadingNewPage(notification, context);
@@ -160,15 +175,16 @@ class _MountPageBody extends StatelessWidget {
                         ),
                         itemBuilder: (context, index) {
                           return PokemonContainer(
-                            pokemonHomeVo: homeVo!.listPokemons[index],
-                            onTap: () => Modular.to.pushNamed(
-                              HomeModule.route + DetailsPage.route,
-                              arguments: homeVo!.listPokemons[index],
-                            ),
+                            pokemonHomeVo: getPokemonsList[index],
+                            // onTap: () => Modular.to.pushNamed(
+                            //   HomeModule.route + DetailsPage.route,
+                            //   arguments: getPokemonsList[index],
+                            // ),
+                            onTap: () => null,
                           );
                         },
                         padding: EdgeInsets.zero,
-                        itemCount: homeVo?.listPokemons.length ?? 0,
+                        itemCount: getPokemonsList.length,
                       ),
                     )
                   : Center(
@@ -185,7 +201,7 @@ class _MountPageBody extends StatelessWidget {
 
   void onLoadingNewPage(ScrollNotification notification, BuildContext context) {
     if (notification.metrics.pixels == notification.metrics.maxScrollExtent &&
-        homeController.homeStore.isLoadingNewPage == false) {
+        homeCubit.state.isLoading == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -197,63 +213,8 @@ class _MountPageBody extends StatelessWidget {
           ),
         ),
       );
-      homeController.loadNewPage();
-    }
-  }
 
-  void showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          title: Text(
-            AppLocalizations.of(context)?.homeSortDialogTitle ??
-                AppConstantsUtils.emptyString,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          content: Container(
-            height: MediaQuery.of(context).size.height * 0.25,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: RadioGroup<HomeSortTypeEnum>(
-              groupValue:
-                  homeController.homeStore.currentPokemons.value.sortTypeEnum,
-              onChanged: (value) {
-                if (value != null) {
-                  homeController.changeFilterType(homeSortTypeEnum: value);
-                  Navigator.pop(context);
-                }
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  RadioListTile<HomeSortTypeEnum>(
-                    title: Text(
-                      AppLocalizations.of(context)?.homeSortOptionId ??
-                          AppConstantsUtils.emptyString,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    value: HomeSortTypeEnum.sortId,
-                    activeColor: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                  RadioListTile<HomeSortTypeEnum>(
-                    title: Text(
-                      AppLocalizations.of(context)?.homeSortOptionName ??
-                          AppConstantsUtils.emptyString,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    value: HomeSortTypeEnum.sortAlphabet,
-                    activeColor: Theme.of(context).scaffoldBackgroundColor,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+      homeCubit.goToNextPage();
+    }
   }
 }

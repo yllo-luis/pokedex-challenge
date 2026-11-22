@@ -27,6 +27,7 @@ dependencies:
 
   # State Management
   rxdart: ^0.28.0
+  flutter_bloc: ^9.1.1
 
   # System
   build_runner: ^2.15.0
