@@ -46,7 +46,7 @@ class HomeCubit extends Cubit<HomeState> {
         emit(
           state.copyWith(
             currentPage: (state.currentPage ?? 0) + 10,
-            pokemonDate: HomeVo(
+            pokemonData: HomeVo(
               listPokemons: [
                 ...?state.pokemonData?.listPokemons,
                 ...pokemons,
@@ -116,7 +116,7 @@ class HomeCubit extends Cubit<HomeState> {
 
         emit(
           state.copyWith(
-            pokemonDate: state.pokemonData?.copyWith(
+            pokemonData: state.pokemonData?.copyWith(
               sortTypeEnum: value,
               listPokemons: pokemonList,
             ),
@@ -127,7 +127,7 @@ class HomeCubit extends Cubit<HomeState> {
 
         emit(
           state.copyWith(
-            pokemonDate: state.pokemonData?.copyWith(
+            pokemonData: state.pokemonData?.copyWith(
               sortTypeEnum: value,
               listPokemons: pokemonList,
             ),
